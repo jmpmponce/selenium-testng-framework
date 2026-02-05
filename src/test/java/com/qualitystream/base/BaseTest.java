@@ -2,12 +2,13 @@ package com.qualitystream.base;
 
 import java.time.Duration;
 
+import com.qualitystream.utils.ConfigManager;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
@@ -28,7 +29,7 @@ public class BaseTest {
 	/**
 	 * Se ejecuta ANTES de cada @Test Prepara el entorno de prueba
 	 */
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setup() {
 		// Descarga y configura automáticamente el driver de Chrome
 		WebDriverManager.chromedriver().setup();
@@ -42,8 +43,7 @@ public class BaseTest {
 		// Inicializa el wait explícito (hasta 10 segundos)
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-		// Navega a la URL base de la aplicación
-		driver.get("https://www.saucedemo.com/");
+		driver.get(ConfigManager.get("base.url"));
 	}
 
 	/**

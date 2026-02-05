@@ -1,6 +1,7 @@
 package com.qualitystream.tests;
 
 import org.testng.Assert;
+
 import org.testng.annotations.Test;
 
 import com.qualitystream.base.BaseTest;
@@ -13,7 +14,7 @@ public class DataProviderTest extends BaseTest {
 	 * Test con usuarios válidos. Este método se ejecutará UNA VEZ por cada fila del
 	 * DataProvider "validUsers".
 	 */
-	@Test(dataProvider = "validUsers", dataProviderClass = DataProviders.class)
+	@Test(groups = { "regression" }, dataProvider = "validUsers", dataProviderClass = DataProviders.class)
 	public void loginWithValidUsers_shouldEnterInventory(String user, String pass) {
 
 		InventoryPage inventory = new LoginPage(driver, wait).waitUntilLoaded().loginAs(user, pass).waitUntilLoaded();
@@ -26,7 +27,7 @@ public class DataProviderTest extends BaseTest {
 	 * Test con usuarios inválidos o bloqueados. Este test también se ejecuta una
 	 * vez por cada fila del DataProvider "invalidUsers".
 	 */
-	@Test(dataProvider = "invalidUsers", dataProviderClass = DataProviders.class)
+	@Test(groups = { "regression" }, dataProvider = "invalidUsers", dataProviderClass = DataProviders.class)
 	public void loginWithInvalidUsers_shouldStayOnLogin(String user, String pass) {
 
 		new LoginPage(driver, wait).waitUntilLoaded().loginAs(user, pass);

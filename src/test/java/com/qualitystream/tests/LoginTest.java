@@ -2,6 +2,9 @@ package com.qualitystream.tests;
 
 import java.time.Duration;
 
+import com.qualitystream.base.BaseTest;
+import com.qualitystream.utils.ConfigManager;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,26 +17,15 @@ import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class LoginTest {
+public class LoginTest extends BaseTest {
 
-	WebDriver driver;
-	WebDriverWait wait;
-
-	@BeforeMethod
-	public void setUp() {
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		driver.get("https://www.saucedemo.com/");
-	}
-
-	@Test
+	@Test(groups = { "smoke", "regression" })
 	public void loginValido() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("user-name")));
 
-		driver.findElement(By.id("user-name")).sendKeys("standard_user");
-		driver.findElement(By.id("password")).sendKeys("secret_sauce");
+		driver.findElement(By.id("user-name")).sendKeys(ConfigManager.get("user.standard"));
+
+		driver.findElement(By.id("password")).sendKeys(ConfigManager.get("user.password"));
 		driver.findElement(By.id("login-button")).click();
 
 		wait.until(ExpectedConditions.urlContains("inventory.html"));
